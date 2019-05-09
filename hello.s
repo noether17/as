@@ -2,7 +2,7 @@
 	
 	.text
 _start:
-	# write(1, message, 13)
+	# write(1, message, 14)
 	mov	$1, %rax		# system call 1 is write
 	mov	$1, %rdi		# file handle 1 is stdout
 	mov	$message, %rsi		# address of string to output
