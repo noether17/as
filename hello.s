@@ -1,16 +1,17 @@
-section .text
-	global _start	; must be declared for linker (ld)
+	.global _start
+	
+	.text
+_start:
+	# write(1, message, 13)
+	mov	$1, %rax		# system call 1 is write
+	mov	$1, %rdi		# file handle 1 is stdout
+	mov	$message, %rsi		# address of string to output
+	mov	$14, %rdx		# number of bytes
+	syscall				# invoke operating system to do the write
 
-_start:			; tells linker entry point
-	mov edx, len	; message length
-	mov ecx, msg	; message to write
-	mov ebx, 1	; file descriptor (stdout)
-	mov eax, 4	; system call number (sys_write)
-	int 0x80	; call kernel
-
-	mov eax, 1	; system call number (sys_exit)
-	int 0x80	; call kernel
-
-section .data
-msg db 'Hello, world!', 0xa	; string to be printed
-len equ $ - msg		; length of the string
+	# exit(0)
+	mov	$60, %rax		# system call 60 is exit
+	xor	%rdi, %rdi		# we want to return code 0
+	syscall				# invoke operating system to exit
+message:
+	.ascii	"Hello, world!\n"
